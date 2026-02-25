@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fujifilm Film Simulation Comparator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">Fujifilm</p>
+      <h1>Film Simulations - live comparison</h1>
+      <p class="subtitle">After many years shooting with Canon, I switched to Fuji, but I’ve always struggled to clearly understand the differences between the various film simulations.<br />The in-camera descriptions are helpful, and the preview available <a href="https://www.fujifilm-x.com/global/products/film-simulation/" target="_blank">here</a> is interesting, but the images are small and the differences are not easy to interpret.</p>
+      <p class="subtitle">So I decided to build this small tool in the hope of helping those who, like me, are just getting started with Fuji film simulations.</p>
+      <p class="subtitle">Select a photo, BASE and COMPARISON. Drag to compare or switch to split view.</p>
+    </header>
+
+    <section class="controls" aria-label="Comparison controls">
+      <label>
+        Subject
+        <select id="subjectSelect"></select>
+      </label>
+
+      <label>
+        Base (left)
+        <select id="baseSelect"></select>
+      </label>
+
+      <label>
+        Comparison (right)
+        <select id="compareSelect"></select>
+      </label>
+
+      <label id="magnifierZoomField" class="zoom-field">
+        Lens zoom
+        <select id="magnifierZoomSelect">
+          <option value="1.5">1.5x</option>
+          <option value="2" selected>2x</option>
+          <option value="3">3x</option>
+        </select>
+        <span class="zoom-help" id="magnifierZoomHelp" role="note">
+          Switch to Side by side to use Lens zoom.
+        </span>
+      </label>
+
+      <label class="width-toggle-field" for="beforeAfterFullWidthToggle">
+        <span>Full width</span>
+        <input id="beforeAfterFullWidthToggle" type="checkbox" />
+      </label>
+
+      <button id="viewToggle" type="button" class="toggle-btn" aria-pressed="false">
+        Switch to: Side by side
+      </button>
+    </section>
+
+    <section id="beforeAfterView" class="viewer before-after-boxed" aria-label="Before/after comparison">
+      <div class="image-stage" id="imageStage">
+        <img id="baseImage" class="image base" alt="Base simulation image" />
+        <div id="compareMask" class="compare-mask">
+          <img id="compareImage" class="image compare" alt="Comparison simulation image" />
+        </div>
+
+        <div id="handle" class="handle" aria-hidden="true">
+          <span></span>
+        </div>
+
+        <input
+          id="splitRange"
+          class="split-range"
+          type="range"
+          min="0"
+          max="100"
+          value="50"
+          aria-label="Comparison divider position"
+        />
+
+        <div class="badge top left" id="baseBadgeTop">BASE</div>
+        <div class="badge top right" id="compareBadgeTop">COMPARISON</div>
+        <div class="badge left" id="baseBadge">BASE</div>
+        <div class="badge right" id="compareBadge">COMPARISON</div>
+      </div>
+    </section>
+
+    <section id="sideBySideView" class="viewer side-by-side hidden" aria-label="Side-by-side comparison">
+      <article class="panel">
+        <h2 id="sideBaseLabel">BASE</h2>
+        <div id="sideBaseStage" class="side-image-stage">
+          <img id="sideBaseImage" alt="Base image side by side" />
+          <div id="sideBaseMagnifier" class="side-magnifier hidden" aria-hidden="true"></div>
+        </div>
+      </article>
+      <article class="panel">
+        <h2 id="sideCompareLabel">COMPARISON</h2>
+        <div id="sideCompareStage" class="side-image-stage">
+          <img id="sideCompareImage" alt="Comparison image side by side" />
+          <div id="sideCompareMagnifier" class="side-magnifier hidden" aria-hidden="true"></div>
+        </div>
+      </article>
+    </section>
+  </main>
+  <footer class="disclaimer">
+    <p>
+      Fujifilm and all related trademarks are property of their respective owners.
+      This is an independent, unofficial project created for informational and
+      educational purposes only.<br />Not affiliated with or endorsed by Fujifilm.<br />
+      This project is open source and developed by
+      <a href="https://github.com/friimaind" target="_blank" rel="noopener noreferrer">friimaind</a>.
+    </p>
+  </footer>
+
+  <script src="assets/images-manifest.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
