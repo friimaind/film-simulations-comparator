@@ -94,6 +94,18 @@ function fillSelect(selectEl, items, selectedValue) {
   }
 }
 
+function simulationFromFileName(fileName) {
+  return parseImage(fileName)?.simulation || null;
+}
+
+function pickFileBySimulation(subjectImages, simulation) {
+  if (!simulation) {
+    return null;
+  }
+
+  return subjectImages.find((image) => image.simulation === simulation)?.fileName || null;
+}
+
 function setComparisonPosition(percent) {
   const safePercent = Math.max(0, Math.min(100, Number(percent)));
   compareMask.style.clipPath = `inset(0 0 0 ${safePercent}%)`;
@@ -192,8 +204,8 @@ function updateImages() {
     syncStageRatioFromImage(compareImage);
   }
 
-  const baseText = prettyName(parseImage(baseFile).simulation);
-  const compareText = prettyName(parseImage(compareFile).simulation);
+  const baseText = baseSelect.selectedOptions[0]?.textContent || "BASE";
+  const compareText = compareSelect.selectedOptions[0]?.textContent || "COMPARISON";
 
   baseBadgeTop.textContent = `BASE - ${baseText}`;
   compareBadgeTop.textContent = `COMPARISON - ${compareText}`;
@@ -210,13 +222,14 @@ function populateSimulationSelects(subject) {
     return;
   }
 
-  const baseCurrent = subjectImages.find((i) => i.fileName === baseSelect.value)
-    ? baseSelect.value
-    : subjectImages[0].fileName;
+  const previousBaseSimulation = simulationFromFileName(baseSelect.value);
+  const previousCompareSimulation = simulationFromFileName(compareSelect.value);
 
-  let compareCurrent = subjectImages.find((i) => i.fileName === compareSelect.value)
-    ? compareSelect.value
-    : subjectImages[1]?.fileName || subjectImages[0].fileName;
+  const baseCurrent = pickFileBySimulation(subjectImages, previousBaseSimulation) || subjectImages[0].fileName;
+
+  let compareCurrent = pickFileBySimulation(subjectImages, previousCompareSimulation)
+    || subjectImages[1]?.fileName
+    || subjectImages[0].fileName;
 
   if (compareCurrent === baseCurrent && subjectImages.length > 1) {
     compareCurrent = subjectImages.find((i) => i.fileName !== baseCurrent).fileName;
