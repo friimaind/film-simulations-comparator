@@ -26,3 +26,5 @@ A lightweight one-page web app to compare Fujifilm film simulations using high-r
 Open `index.html` in your browser.
 
 The app is designed to work directly from local files (`file://`) with the provided manifest script.
+
+You can also visit [https://friimaind.github.io/film-simulations-comparator/](https://friimaind.github.io/film-simulations-comparator/)
